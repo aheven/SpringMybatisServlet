@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heven.holt.dao.StaffDao">
+    <resultMap id="resultMap" type="com.heven.holt.entity.Staff">
+        <id property="id" column="id" javaType="Integer"/>
+        <result property="account" column="account" javaType="String"/>
+        <result property="password" column="password" javaType="String"/>
+        <result property="status" column="status" javaType="String"/>
+        <result property="did" column="did" javaType="Integer"/>
+        <result property="name" column="name" javaType="String"/>
+        <result property="sex" column="sex" javaType="String"/>
+        <result property="idNumber" column="id_number" javaType="String"/>
+        <result property="workTime" column="work_time" javaType="Date"/>
+        <result property="leaveTime" column="leave_time" javaType="Date"/>
+        <result property="bornDate" column="born_date" javaType="Date"/>
+        <result property="info" column="info" javaType="String"/>
+        <association property="department" column="did" javaType="Department" select="com.heven.holt.dao.DepartmentDao.selectById"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="Staff" useGeneratedKeys="true">
+        INSERT INTO staff (account, password, status, did, name, sex, id_number, work_time, leave_time, born_date, info)
+        VALUES (
+            #{account}, #{password}, #{status}, #{did}, #{name}, #{sex}, #{idNumber}, #{workTime}, #{leaveTime},
+                        #{bornDate}, #{info}
+        );
+    </insert>
+
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM staff
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="Staff">
+        UPDATE staff
+        <set>
+            <if test="account!=null">account=#{account},</if>
+            <if test="password!=null">password=#{password},</if>
+            <if test="status!=null">status=#{status},</if>
+            <if test="did!=null">did=#{did},</if>
+            <if test="name!=null">name=#{name},</if>
+            <if test="sex!=null">sex=#{sex},</if>
+            <if test="idNumber!=null">id_number=#{idNumber},</if>
+            <if test="workTime!=null">work_time=#{workTime},</if>
+            <if test="leaveTime!=null">leave_time=#{leaveTime},</if>
+            <if test="bornDate!=null">born_date=#{bornDate},</if>
+            <if test="info!=null">info=#{info}</if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="selectById" parameterType="Integer" resultMap="resultMap">
+        SELECT *
+        FROM staff
+        WHERE id = #{id}
+    </select>
+    <select id="selectAll" resultMap="resultMap">
+        SELECT *
+        FROM staff
+    </select>
+
+</mapper>
