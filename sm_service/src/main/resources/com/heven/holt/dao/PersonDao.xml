@@ -25,5 +25,38 @@
         WHERE username = #{username} AND gender = #{gender}
     </select>
 
+    <select id="getPersonByCollection" parameterType="collection" resultType="Person">
+        SELECT *
+        FROM person
+        WHERE id = #{collection[0]}
+    </select>
+
+    <select id="getPersonsByIds" parameterType="collection" resultMap="resultMap">
+        SELECT * FROM person WHERE id IN
+        <foreach item="id" collection="ids" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="addPerson" parameterType="Person">
+        INSERT INTO person (username, email, gender) VALUES (#{username}, #{email}, #{gender});
+    </insert>
+
+    <insert id="addPersons" parameterType="collection">
+        INSERT INTO person(username, email, gender) VALUES
+        <foreach collection="persons" item="person" separator=",">
+            (#{person.username},#{person.email},#{person.gender})
+        </foreach>
+    </insert>
+
+    <update id="updatePerson" parameterType="Person">
+        UPDATE person
+        <set>
+            <if test="username!=null">username=#{username},</if>
+            <if test="email!=null">email=#{email},</if>
+            <if test="gender!=null">gender=#{gender}</if>
+        </set>
+        WHERE id=#{id}
+    </update>
 
 </mapper>

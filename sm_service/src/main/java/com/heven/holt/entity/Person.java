@@ -7,6 +7,22 @@ public class Person {
     private String gender;
     private Dept dept;
 
+    public Person() {
+    }
+
+    public Person(String username, String email, String gender) {
+        this.username = username;
+        this.email = email;
+        this.gender = gender;
+    }
+
+    public Person(Integer id, String username, String email, String gender) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.gender = gender;
+    }
+
     public Integer getId() {
         return id;
     }
